@@ -2,13 +2,14 @@
 
 Full customable rolling switch widget for flutter apps based on Pedro Massango's 'crazy-switch' widget https://github.com/pedromassango/crazy-switch
 
-## About 
+## About
 
 Custom Switch button with attractive animation,
 made to allow you to customize colors, icons and other cosmetic content. Manage the widget states in the same way you do with the classical material's switch widget.
 
-> **NOTE**: Currently, you cannot directly change the widget width and height properties. This feature will be available soon.
+> **NOTE**: Null safety added since 0.2.0 thanks to [CodoPixel](https://github.com/CodoPixel/)
 
+> **NOTE**: Currently, you cannot directly change the widget width and height properties. This feature will be available soon.
 
 ## Previews
 
@@ -41,4 +42,4 @@ LiteRollingSwitch(
 
 ## Other
 
-[](https://pub.dev/packages/lite_rolling_switch#-installing-tab-)
+[pub.dev](https://pub.dev/packages/lite_rolling_switch#-installing-tab-)

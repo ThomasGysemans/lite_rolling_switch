@@ -1,11 +1,11 @@
 name: lite_rolling_switch
 description: Custom Switch button with attractive animation, made to allow you to customize colors, icons and other cosmetic content.
-version: 0.1.1
+version: 0.2.0
 author: Eduardo Munoz <edomun@protonmail.com>
 homepage: https://github.com/cgustav/lite_rolling_switch
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
