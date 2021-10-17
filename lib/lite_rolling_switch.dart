@@ -14,28 +14,58 @@ import 'dart:math';
 ///
 /// * [value] determines whether this switch is on or off.
 /// * [onChanged] is called when the user toggles the switch on or off.
-///
-/// If you don't set these arguments you would
-/// experiment errors related to animationController
-/// states or any other undesirable behavior, please
-/// don't forget to set them.
-///
 class LiteRollingSwitch extends StatefulWidget {
+  /// A required boolean that sets the value of the button.
+  /// * "on" = `true`
+  /// * "off" = `false`
   final bool value;
+
+  /// A function called every time there is a change in state. (required)
   final Function(bool) onChanged;
+
+  /// Text displayed when the [value] is `false`. By default
+  /// * "Off"
   final String textOff;
+
+  /// Text displayed when the [value] is `true`. By default:
+  /// * "On"
   final String textOn;
+
+  /// Color shown when the [value] is `true`. By default:
+  /// * `Colors.green`
   final Color colorOn;
+
+  /// Color shown when the [value] is `false`. By default:
+  /// * `Colors.red`
   final Color colorOff;
+
+  /// The size of the text. By default:
+  /// * `14.0`
   final double textSize;
+
+  /// The duration of the animation. By default:
+  /// * `Duration(milliseconds: 600)`
   final Duration animationDuration;
+
+  /// Text displayed when the [value] is `true`. By default:
+  /// * `Icons.check`
   final IconData iconOn;
+
+  /// Text displayed when the [value] is `false`. By default:
+  /// * `Icons.flag`
   final IconData iconOff;
+
+  /// Additional action on tap.
   final Function? onTap;
+
+  /// Additional action on double tap.
   final Function? onDoubleTap;
+
+  /// Additional action on swipe.
   final Function? onSwipe;
 
-  LiteRollingSwitch({
+  const LiteRollingSwitch({
+    Key? key,
     required this.value,
     required this.onChanged,
     this.textOff = "Off",
@@ -49,7 +79,7 @@ class LiteRollingSwitch extends StatefulWidget {
     this.onTap,
     this.onDoubleTap,
     this.onSwipe,
-  });
+  }) : super(key: key);
 
   @override
   _RollingSwitchState createState() => _RollingSwitchState();
@@ -73,12 +103,15 @@ class _RollingSwitchState extends State<LiteRollingSwitch>
   void initState() {
     super.initState();
     animationController = AnimationController(
-        vsync: this,
-        lowerBound: 0.0,
-        upperBound: 1.0,
-        duration: widget.animationDuration);
-    animation =
-        CurvedAnimation(parent: animationController, curve: Curves.easeInOut);
+      vsync: this,
+      lowerBound: 0.0,
+      upperBound: 1.0,
+      duration: widget.animationDuration,
+    );
+    animation = CurvedAnimation(
+      parent: animationController,
+      curve: Curves.easeInOut,
+    );
     animationController.addListener(() {
       setState(() {
         value = animation.value;
@@ -106,10 +139,12 @@ class _RollingSwitchState extends State<LiteRollingSwitch>
         if (widget.onSwipe != null) widget.onSwipe!();
       },
       child: Container(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         width: 130,
         decoration: BoxDecoration(
-            color: transitionColor, borderRadius: BorderRadius.circular(50)),
+          color: transitionColor,
+          borderRadius: BorderRadius.circular(50),
+        ),
         child: Stack(
           children: <Widget>[
             Transform.translate(
@@ -117,33 +152,35 @@ class _RollingSwitchState extends State<LiteRollingSwitch>
               child: Opacity(
                 opacity: (1 - value).clamp(0.0, 1.0),
                 child: Container(
-                  padding: EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.only(right: 10),
                   alignment: Alignment.centerRight,
                   height: 40,
                   child: Text(
                     widget.textOff,
                     style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: widget.textSize),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: widget.textSize,
+                    ),
                   ),
                 ),
               ),
             ),
             Transform.translate(
-              offset: Offset(10 * (1 - value), 0), //original
+              offset: Offset(10 * (1 - value), 0), // original
               child: Opacity(
                 opacity: value.clamp(0.0, 1.0),
                 child: Container(
-                  padding: EdgeInsets.only(/*top: 10,*/ left: 5),
+                  padding: const EdgeInsets.only(left: 5),
                   alignment: Alignment.centerLeft,
                   height: 40,
                   child: Text(
                     widget.textOn,
                     style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: widget.textSize),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: widget.textSize,
+                    ),
                   ),
                 ),
               ),
@@ -156,28 +193,32 @@ class _RollingSwitchState extends State<LiteRollingSwitch>
                   height: 40,
                   width: 40,
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.white),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                  ),
                   child: Stack(
                     children: <Widget>[
                       Center(
                         child: Opacity(
-                          opacity: (1 - value).clamp(0.0, 1.0),
+                          opacity: value.clamp(0.0, 1.0),
                           child: Icon(
-                            widget.iconOff,
-                            size: 25,
+                            widget.iconOn,
+                            size: 21,
                             color: transitionColor,
                           ),
                         ),
                       ),
                       Center(
-                          child: Opacity(
-                              opacity: value.clamp(0.0, 1.0),
-                              child: Icon(
-                                widget.iconOn,
-                                size: 21,
-                                color: transitionColor,
-                              ))),
+                        child: Opacity(
+                          opacity: (1 - value).clamp(0.0, 1.0),
+                          child: Icon(
+                            widget.iconOff,
+                            size: 21,
+                            color: transitionColor,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -193,6 +234,7 @@ class _RollingSwitchState extends State<LiteRollingSwitch>
     _determine(changeState: true);
   }
 
+  /// Handles the animation.
   _determine({bool changeState = false}) {
     setState(() {
       if (changeState) turnState = !turnState;
